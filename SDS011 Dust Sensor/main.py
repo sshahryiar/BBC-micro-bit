@@ -24,6 +24,6 @@ lcd.put_str("ug/m3")
 while(True):
     pm25, pm10, id1, id2 = sds.read()
     lcd.goto_xy(6, 0)
-    lcd.put_str(str("%3.1f " %pm25))
+    lcd.put_str(str("%3.1f" %pm25))
     lcd.goto_xy(6, 1)
-    lcd.put_str(str("%3.1f " %pm10))
+    lcd.put_str(str("%3.1f" %pm10))
