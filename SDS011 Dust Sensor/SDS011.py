@@ -25,19 +25,21 @@ class SDS011():
     
     def __init__(self, _uart):
         self.uart = _uart
-        
+    
         
     def read(self):
         crc = 0
         pm10 = 0
         pm25 = 0
-        
-        try:
-            data = uart.read(SDS011_MESSAGE_LENGTH)
-        except:
-            print("Error Reading Sensor!")
+
+        self.uart.write(b'\xAA\xB4\x06\x01\x00\x00\x00\x00\xFF\xFF\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xFF\xFF\x06\xAB')
         sleep_ms(1000)
         
+        try:
+            data = self.uart.read(SDS011_MESSAGE_LENGTH)
+        except:
+            print("Error Reading Sensor!")
+
         if((data[SDS011_MESSAGE_HEADER_BYTE_ID] == SDS011_MESSAGE_HEADER) and (data[SDS011_COMMANDER_NO_BYTE_ID] == SDS011_COMMANDER_NO)):
             for i in range(SDS011_PM25_LB_BYTE_ID, SDS011_CRC_BYTE_ID):
                 crc += data[i]
